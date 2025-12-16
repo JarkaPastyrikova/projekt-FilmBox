@@ -104,3 +104,47 @@ const filmy = [
 		premiera: '2022-12-24',
 	},
 ]
+
+
+/*****************************/
+
+	// 4. Seznam filmů
+// vyhledání prvku s id seznam-filmu
+const seznamFilmuElm = document.querySelector('#seznam-filmu');
+
+// vymazání obsahu
+seznamFilmuElm.innerHTML = '';
+
+// projití všech filmů - cyklus
+// ad 5) přidaný hash a id
+for (let i = 0; i < filmy.length; i++) {
+	const film = filmy[i];
+
+	seznamFilmuElm.innerHTML += `
+		<div class="col">
+			<div class="card">
+				<img
+					src="${film.plakat.url}"
+					width="${film.plakat.sirka}"
+					height="${film.plakat.vyska}"
+					class="card-img-top"
+					alt="plakát filmu ${film.nazev}"
+				/>
+				<div class="card-body">
+					<h5 class="card-title">${film.nazev}</h5>
+					<p class="card-text">${film.ochutnavka}</p>
+					<a href="film.html#${film.id}" class="btn btn-primary">Přehrát</a>
+				</div>
+			</div>
+		</div>
+	`;
+}
+
+
+// Bonus: přidání vlastního filmu - možná později
+
+
+
+
+
+

@@ -104,3 +104,112 @@ const filmy = [
 		premiera: '2022-12-24',
 	},
 ]
+
+
+/***********************/
+
+	// 5. Bonus: Detail filmu
+
+// ad 3) 
+// získání hashe(id) z adresy 
+const hash = location.hash;
+
+// odstranění znaku # a získání id filmu
+const filmId = hash.slice(1);
+
+// ad 4) 
+// pročesání pole filmy a porovnání id získaného z hashe s id filmů v poli/seznamu
+let vybranyFilm = null;           // nebo  jen let vybranyFilm?
+
+for (let i = 0; i < filmy.length; i++) {
+	if (filmy[i].id === filmId) {
+		vybranyFilm = filmy[i];
+	}
+}
+
+// ad 5)  doplnění obsahu
+/*
+Vepište informace (název, popis, plakát) o nalezeném filmu do stránky. 
+Upravte textový obsah a atributy příslušných potomků prvku #detail-filmu. 
+Do .card-text vepište dlouhý popis filmu.
+*/
+const detailFilmuElm = document.querySelector('#detail-filmu');
+
+const obrazekElm = detailFilmuElm.querySelector('img');
+const nazevElm = detailFilmuElm.querySelector('.card-title');
+const popisElm = detailFilmuElm.querySelector('.card-text');
+
+obrazekElm.src = vybranyFilm.plakat.url;
+obrazekElm.alt = `Plakát filmu ${vybranyFilm.nazev}`;
+
+nazevElm.textContent = vybranyFilm.nazev;
+popisElm.textContent = vybranyFilm.popis;
+
+// 6. Bonus: Premiéra
+const premieraElm = document.querySelector('#premiera');
+
+const datumPremiery = dayjs(vybranyFilm.premiera);
+const zformatovaneDatum = datumPremiery.format('D. M. YYYY');
+
+premieraElm.innerHTML = `Premiéra <strong>${zformatovaneDatum}</strong>`;
+
+		// kolik dní od premiéry
+const dnes = dayjs();
+const rozdilDni = datumPremiery.diff(dnes, 'days');
+
+let text;
+
+if (rozdilDni === 0) {
+	text = ' (premiéra je dnes)';
+} else if (rozdilDni > 0) {
+	text = ` (premiéra bude za ${rozdilDni} dní)`;
+} else {
+	text = ` (premiéra byla před ${rozdilDni * -1} dny)`;
+}
+
+premieraElm.innerHTML += text;
+
+	// Extra bonus: jo, nejdřív vymyslet logiku
+	/*
+Zařiďte, aby tvar slova den byl ve správném tvaru, aby se třeba nestalo „což bylo před 1 dní“.
+*/
+
+// 7. Bonus: Hodnocení - to vypadá poněkud drsně
+// zvyraznovaci funkce 
+
+
+// 8. Poznámka
+const noteFormElm = document.querySelector('#note-form');
+
+// zabránit odeslání
+noteFormElm.addEventListener('submit', function (event) {
+	event.preventDefault();
+
+	const messageInputElm = document.querySelector('#message-input');
+	const termsCheckboxElm = document.querySelector('#terms-checkbox');
+
+	// nastaví výchozí stav bez červeně vyznačené chyby
+	messageInputElm.classList.remove('is-invalid');
+	termsCheckboxElm.classList.remove('is-invalid');
+
+	if (messageInputElm.value === '') {
+		messageInputElm.classList.add('is-invalid');
+		return;
+	}
+
+	if (!termsCheckboxElm.checked) {
+		termsCheckboxElm.classList.add('is-invalid');
+		return;
+	}
+
+	noteFormElm.innerHTML = `
+		<p class="card-text">${messageInputElm.value}</p>
+	`;
+});
+
+
+
+
+
+
+
